@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>5-Digit Slot Machine</title>
+    <style>
+        .slot-container { font-family: monospace; font-size: 50px; background: #222; color: #0f0; padding: 20px; border-radius: 10px; display: inline-block; }
+        .controls { margin-top: 20px; }
+        input { width: 80px; font-size: 18px; }
+        button { font-size: 18px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="slot-container" id="display">00000</div>
+
+    <div class="controls">
+        <label>Force Result:</label>
+        <input type="text" id="targetNumber" placeholder="12345" maxlength="5">
+        <button onclick="spin()">Spin!</button>
+    </div>
+
+    <script>
+        function spin() {
+            const display = document.getElementById('display');
+            const target = document.getElementById('targetNumber').value;
+            
+            // If user typed a 5-digit number, use it. Otherwise, random.
+            let result;
+            if (target && target.length === 5 && !isNaN(target)) {
+                result = target;
+            } else {
+                // Generate random number between 0 and 99999
+                let rand = Math.floor(Math.random() * 100000);
+                result = rand.toString().padStart(5, '0');
+            }
+
+            // Simple animation effect
+            let count = 0;
+            const interval = setInterval(() => {
+                display.innerText = Math.floor(Math.random() * 100000).toString().padStart(5, '0');
+                count++;
+                if (count > 20) {
+                    clearInterval(interval);
+                    display.innerText = result; // Show final result
+                }
+            }, 50);
+        }
+    </script>
+</body>
+</html>
